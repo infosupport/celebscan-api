@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ ! -d ".deployment" ]; then
+  echo "Cloning deployment branch"
+  git clone -b deployment https://github.com/infosupport/celebscan-api .deployment
+fi
+
 echo "Cleaning up deployment folder"
 cd .deployment && rm -rf * && cd ..
 
