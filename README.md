@@ -38,6 +38,7 @@ Run the following commands to build the application:
  - `dotnet run`
 
 ### Testing
+ - `cd test/Celebscan.Service.Tests`
  - `dotnet test`
 
 ### Building
