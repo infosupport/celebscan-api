@@ -290,3 +290,4 @@ __pycache__/
 # App specific configuration
 src/Celebscan.Service/appsettings.*.json
 !src/Celebscan.Service/appsettings.json
+.deployment
