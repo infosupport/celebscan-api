@@ -1,6 +1,6 @@
-[![Stories in Ready](https://badge.waffle.io/infosupport/celebscan-api.png?label=ready&title=Ready)](https://waffle.io/infosupport/celebscan-api?utm_source=badge)
 # Celebscan API
 
+[![Stories in Ready](https://badge.waffle.io/infosupport/celebscan-api.png?label=ready&title=Ready)](https://waffle.io/infosupport/celebscan-api?utm_source=badge)
 [![Build Status](https://travis-ci.org/infosupport/celebscan-api.svg?branch=master)](https://travis-ci.org/infosupport/celebscan-api)
 
 Cache + Image proxy for the celebscan application. This application is used by the 
