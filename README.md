@@ -55,6 +55,15 @@ Run the following commands to build the application:
  - `dotnet run`
 
 ### Testing
+Before you run unit-tests, make sure that you have MongoDB running on your
+local machine. You can do this using the following command:
+
+```
+docker run -d -p 27017:27017 --name mongodb mongodb
+```
+
+After that use these commands to run tests:
+
  - `cd test/Celebscan.Service.Tests`
  - `dotnet test`
 

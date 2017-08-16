@@ -1,4 +1,5 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Celebscan.Service.Models
 {
@@ -13,6 +14,7 @@ namespace Celebscan.Service.Models
             Description = description;
         }
         
+        [BsonId]
         public string Key { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
