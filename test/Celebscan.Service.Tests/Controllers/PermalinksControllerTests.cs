@@ -15,6 +15,7 @@ namespace Celebscan.Service.Tests.Controllers
     {
         private readonly Mock<IPermalinkUrlTranslator> _permalinkUrlTranslator;
         private readonly Mock<IPermalinkGenerator> _permalinkGenerator;
+        private readonly Mock<IPermalinkStorage> _permalinkStorage;
         private readonly Mock<IObjectModelValidator> _validator;
         private readonly PermalinksController _controller;
 
@@ -22,11 +23,15 @@ namespace Celebscan.Service.Tests.Controllers
         {
             _validator = new Mock<IObjectModelValidator>();
             _permalinkGenerator = new Mock<IPermalinkGenerator>();
+            _permalinkStorage = new Mock<IPermalinkStorage>();
             _permalinkUrlTranslator = new Mock<IPermalinkUrlTranslator>();
-            _controller = new PermalinksController(_permalinkGenerator.Object, _permalinkUrlTranslator.Object)
-            {
-                ObjectValidator = _validator.Object
-            };
+            
+            _controller = new PermalinksController(
+                _permalinkGenerator.Object,
+                _permalinkUrlTranslator.Object,
+                _permalinkStorage.Object);
+
+            _controller.ObjectValidator = _validator.Object;
             
             _permalinkUrlTranslator
                 .Setup(mock => mock.Translate(It.IsAny<IUrlHelper>(), It.IsAny<string>()))
@@ -54,7 +59,7 @@ namespace Celebscan.Service.Tests.Controllers
             Assert.IsType<JsonResult>(result);
 
             var jsonResult = (JsonResult) result;
-            var url = ((PermalinkData) jsonResult.Value).Url;
+            var url = ((PermalinkUrlData) jsonResult.Value).Url;
 
             Assert.Equal(url, "http://localhost:8080/api/permalinks/bladiebla");
         }
@@ -69,6 +74,34 @@ namespace Celebscan.Service.Tests.Controllers
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        [Fact]
+        public async Task GetPermalinkReturnsUrl()
+        {
+            _permalinkStorage
+                .Setup(mock => mock.FindByCode(It.IsAny<string>()))
+                .ReturnsAsync(new Permalink());
+            
+            SetupValidator(shouldInvalidateModelState: false);
+
+            var result = await _controller.GetPermalink("bladiebla");
+
+            Assert.IsType<JsonResult>(result);
+        }
+
+        [Fact]
+        public async Task GetPermalinkForNonexistingCodeReturnsNotFound()
+        {
+            _permalinkStorage
+                .Setup(mock => mock.FindByCode(It.IsAny<string>()))
+                .ReturnsAsync((Permalink)null);
+            
+            SetupValidator(shouldInvalidateModelState: false);
+
+            var result = await _controller.GetPermalink("bladiebla");
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+        
         private void SetupValidator(bool shouldInvalidateModelState)
         {
             void ValidationCallback(

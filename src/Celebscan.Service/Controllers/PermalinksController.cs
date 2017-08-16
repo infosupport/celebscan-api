@@ -12,13 +12,16 @@ namespace Celebscan.Service.Controllers
     {
         private readonly IPermalinkGenerator _permalinkGenerator;
         private readonly IPermalinkUrlTranslator _permalinkUrlTranslator;
-
+        private readonly IPermalinkStorage _permalinkStorage;
+        
         public PermalinksController(
             IPermalinkGenerator permalinkGenerator, 
-            IPermalinkUrlTranslator permalinkUrlTranslator)
+            IPermalinkUrlTranslator permalinkUrlTranslator, 
+            IPermalinkStorage permalinkStorage)
         {
             _permalinkGenerator = permalinkGenerator;
             _permalinkUrlTranslator = permalinkUrlTranslator;
+            _permalinkStorage = permalinkStorage;
         }
 
         [HttpPost]
@@ -35,7 +38,21 @@ namespace Celebscan.Service.Controllers
             var linkCode = await _permalinkGenerator.Generate(parameters);
             var linkUrl = _permalinkUrlTranslator.Translate(Url, linkCode);
 
-            return Json(new PermalinkData(linkUrl));
+            return Json(new PermalinkUrlData(linkUrl));
+        }
+
+        [HttpGet]
+        [Route("/api/permalinks/{code}")]
+        public async Task<IActionResult> GetPermalink(string code)
+        {
+            var link = await _permalinkStorage.FindByCode(code);
+
+            if (link == null)
+            {
+                return NotFound();
+            }
+            
+            return Json(PermalinkData.FromPermalink(link));
         }
 
         private Dictionary<string, List<string>> TranslateErrors()

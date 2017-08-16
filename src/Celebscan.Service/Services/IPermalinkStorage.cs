@@ -14,5 +14,12 @@ namespace Celebscan.Service.Services
         /// <param name="link">Link data to store</param>
         /// <returns>Returns the stored permalink</returns>
         Task<Permalink> Save(Permalink link);
+
+        /// <summary>
+        /// Finds a single permalink by its generated code
+        /// </summary>
+        /// <param name="code">The code for the permalink</param>
+        /// <returns>Returns the permalink</returns>
+        Task<Permalink> FindByCode(string code);
     }
 }

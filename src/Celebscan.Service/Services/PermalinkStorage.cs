@@ -45,5 +45,18 @@ namespace Celebscan.Service.Services
 
             return link;
         }
+
+        /// <summary>
+        /// Finds a single permalink by its generated code
+        /// </summary>
+        /// <param name="code">The code for the permalink</param>
+        /// <returns>Returns the permalink</returns>
+        public async Task<Permalink> FindByCode(string code)
+        {
+            var cursor = await _permalinks.FindAsync(Builders<Permalink>.Filter.Eq(x => x.Id, code));
+            var foundRecord = await cursor.FirstOrDefaultAsync();
+
+            return foundRecord;
+        }
     }
 }

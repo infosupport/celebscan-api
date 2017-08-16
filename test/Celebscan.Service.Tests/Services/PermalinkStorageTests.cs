@@ -45,5 +45,22 @@ namespace Celebscan.Service.Tests.Services
             
             Assert.NotNull(storedRecord);
         }
+
+        [Fact]
+        public async Task FindByCodeReturnsStoredPermalink()
+        {
+            var result = await _permalinkStorage.Save(new Permalink()
+            {
+                Id = "bla",
+                ImageData = "bla",
+                Label = "bla",
+                Score = 1.0,
+                Scores = new List<ScanResult>()
+            });
+
+            var record = await _permalinkStorage.FindByCode("bla");
+            
+            Assert.NotNull(record);
+        }
     }
 }
