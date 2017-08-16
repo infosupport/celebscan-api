@@ -17,4 +17,4 @@ addons:
 before_script:
   dotnet restore
 script:
-  dotnet test
+  dotnet test test/Celebscan.Service.Tests/Celebscan.Service.Tests.csproj
