@@ -6,6 +6,7 @@ dotnet: 1.0.1
 branches:
   only:
   - master
+  - develop
 addons:
   apt:
     sources:
