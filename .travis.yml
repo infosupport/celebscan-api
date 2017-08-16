@@ -17,4 +17,4 @@ addons:
 before_script:
   dotnet restore
 script:
-  dotnet build
+  dotnet test
