@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Celebscan.Service.Configuration;
+using Celebscan.Service.Models;
 using Celebscan.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,10 @@ namespace Celebscan.Service
             services.AddSingleton<IWikipediaBrowser, WikipediaBrowser>();
             services.AddSingleton<ICelebrityCache, CelebrityCache>();
             services.AddSingleton<ICelebrityStorage, CelebrityStorage>();
+            services.AddSingleton<IPermalinkGenerator, PermalinkGenerator>();
+            services.AddSingleton<IPermalinkStorage, PermalinkStorage>();
+            
+            services.AddTransient<IPermalinkUrlTranslator, PermalinkUrlTranslator>();
 
             services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
         }

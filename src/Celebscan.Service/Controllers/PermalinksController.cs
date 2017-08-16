@@ -25,6 +25,8 @@ namespace Celebscan.Service.Controllers
         [Route("/api/permalinks")]
         public async Task<IActionResult> CreatePermalink([FromBody] PermalinkGeneratorParameters parameters)
         {
+            TryValidateModel(parameters);
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(TranslateErrors());
